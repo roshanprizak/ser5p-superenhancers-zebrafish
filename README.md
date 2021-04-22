@@ -29,10 +29,14 @@ We get **H3K27ac** ChIP-seq data at *Dome* (`SRR352249.fastq.gz`) and *80% Epibo
 ), and **Input** control ChIP-seq data at *80% Epiboly* (`SRR585264.fastq.gz`) from [GSE41458](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE41458).
 
 **H3K27ac** *Dome*: `wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR352/SRR352249/SRR352249.fastq.gz -P $DATAPATH/raw_data/`
+
 **H3K27ac** *80% Epiboly*:  `wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR352/SRR352250/SRR352250.fastq.gz -P $DATAPATH/raw_data/`
+
 **Pol II Ser5P** *Dome*:  `wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR711/SRR711350/SRR711350.fastq.gz -P $DATAPATH/raw_data/`
+
 **Input** *Dome*: `wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR393/000/SRR3932160/SRR3932160.fastq.gz -P $DATAPATH/raw_data/`
 `wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR393/001/SRR3932161/SRR3932161.fastq.gz -P $DATAPATH/raw_data/`
+
 **Input** *80% Epiboly*: `wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR585/SRR585264/SRR585264.fastq.gz -P $DATAPATH/raw_data/`
 
 ### Running **FastQC**
