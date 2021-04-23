@@ -48,12 +48,16 @@ Run **FastQC** on each **fastq.gz** file to check quality of sequencing reads. F
 
 ### Creating genome index
 Obtain the DNA reference sequence in `fasta` format from **NCBI**, unzip it, and use `bowtie2-build` to build a genome index.
+
 `wget https://hgdownload.soe.ucsc.edu/goldenPath/danRer10/bigZips/danRer10.fa.gz -P $DATAPATH/genome_files/`
+
 `gunzip $DATAPATH/genome_files/danRer10.fa.gz`
+
 `bowtie2-build $DATAPATH/genome_files/danRer10.fa $DATAPATH/danRer10_index/danRer10`
 
 ### Aligning reads
 Aligning reads to the indexed genome returns **SAM** files.
+
 `bowtie2 -q -x $DATAPATH/danRer10_index/danRer10 -U raw_data/SRR352249.fastq.gz -S $DATAPATH/aligned_data/H3K27ac_Dome.sam`
 
 > 11861357 reads; of these:
@@ -64,9 +68,13 @@ Aligning reads to the indexed genome returns **SAM** files.
 > 94.44% overall alignment rate
 
 `bowtie2 -q -x $DATAPATH/danRer10_index/danRer10 -U raw_data/SRR352250.fastq.gz -S $DATAPATH/aligned_data/H3K27ac_80Epi.sam`
+
 `bowtie2 -q -x $DATAPATH/danRer10_index/danRer10 -U raw_data/SRR711350.fastq.gz -S $DATAPATH/aligned_data/Ser5P_Dome.sam`
+
 `bowtie2 -q -x $DATAPATH/danRer10_index/danRer10 -U raw_data/SSRR3932160.fastq.gz -S $DATAPATH/aligned_data/Input1_Dome.sam`
+
 `bowtie2 -q -x $DATAPATH/danRer10_index/danRer10 -U raw_data/SSRR3932161.fastq.gz -S $DATAPATH/aligned_data/Input2_Dome.sam`
+
 `bowtie2 -q -x $DATAPATH/danRer10_index/danRer10 -U raw_data/SRR585264.fastq.gz -S $DATAPATH/aligned_data/Input_80Epi.sam`
 
 ### Filtering, sorting and indexing aligned reads
