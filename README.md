@@ -85,7 +85,9 @@ Next, use **samtools** to filter aligned reads to retain those with a maximum of
 3. *\*_ut1m\_sorted.bam.bai*: Indexed.
 
 **Filtering**: `samtools view -bq 40 $DATAPATH/aligned_data/Ser5P_Dome.sam > $DATAPATH/aligned_data/Ser5P_Dome_ut1m.bam`
+
 **Sorting**: `samtools sort $DATAPATH/aligned_data/Ser5P_Dome_ut1m.bam > $DATAPATH/aligned_data/Ser5P_Dome_ut1m_sorted.bam`
+
 **Indexing**: `samtools index $DATAPATH/aligned_data/Ser5P_Dome_ut1m.bam`
  
 For **Input** *Dome* data, we merge the BAM files before sorting. 
@@ -101,30 +103,35 @@ To produce **bigWig** coverage tracks, we need an estimate of the fragment lengt
 
 **H3K27ac** *Dome*
 `macs2 filterdup -i $DATAPATH/aligned_data/H3K27ac_Dome_ut1m_sorted.bam --keep-dup=1 -o $DATAPATH/fragment_length_predict/H3K27ac_Dome_filterdup.bed`
+
 `macs2 predictd -g 1195445591 --outdir $DATAPATH/fragment_length_predict/ -i $DATAPATH/fragment_length_predict/H3K27ac_Dome_filterdup.bed --rfile H3K27ac_Dome -m 5 50`
 
 > tag size = 49, total tags in alignment file: 5772149, number of paired peaks: 50433, **predicted fragment length is 287** bps, alternative fragment length(s) may be 287 bps 
 
 **H3K27ac** *80Epi*
 `macs2 filterdup -i $DATAPATH/aligned_data/H3K27ac_80Epi_ut1m_sorted.bam --keep-dup=1 -o $DATAPATH/fragment_length_predict/H3K27ac_80Epi_filterdup.bed`
+
 `macs2 predictd -g 1195445591 --outdir $DATAPATH/fragment_length_predict/ -i $DATAPATH/fragment_length_predict/H3K27ac_80Epi_filterdup.bed --rfile H3K27ac_80Epi -m 5 50`
 
 > tag size = 49, total tags in alignment file: 5580260, number of paired peaks: 43941, **predicted fragment length is 297** bps, alternative fragment length(s) may be 297 bps 
 
 **Ser5P** *Dome*
 `macs2 filterdup -i $DATAPATH/aligned_data/Ser5P_Dome_ut1m_sorted.bam --keep-dup=1 -o $DATAPATH/fragment_length_predict/Ser5P_Dome_filterdup.bed`
+
 `macs2 predictd -g 1251132686 --outdir $DATAPATH/fragment_length_predict/ -i $DATAPATH/fragment_length_predict/Ser5P_Dome_filterdup.bed --rfile Ser5P_Dome -m 5 50`
 
 > tag size = 76, total tags in alignment file: 10681375, number of paired peaks: 23456, **predicted fragment length is 224** bps, alternative fragment length(s) may be 224 bps 
 
 **Input** *Dome*
 `macs2 filterdup -i $DATAPATH/aligned_data/Input_Dome_ut1m_sorted.bam --keep-dup=1 -o $DATAPATH/fragment_length_predict/Input_Dome_filterdup.bed`
+
 `macs2 predictd -g 1195445591 --outdir $DATAPATH/fragment_length_predict/ -i $DATAPATH/fragment_length_predict/Input_Dome_filterdup.bed --rfile Input_Dome -m 3 20`
 
 > tag size = 49, total tags in alignment file: 21866194, number of paired peaks: 9428, **predicted fragment length is 191** bps, alternative fragment length(s) may be 191 bps 
 
 **Input** *80Epi*
 `macs2 filterdup -i $DATAPATH/aligned_data/Input_80Epi_ut1m_sorted.bam --keep-dup=1 -o $DATAPATH/fragment_length_predict/Input_80Epi_filterdup.bed`
+
 `macs2 predictd -g 1195445591 --outdir $DATAPATH/fragment_length_predict/ -i $DATAPATH/fragment_length_predict/Input_80Epi_filterdup.bed --rfile Input_80Epi -m 3 20`
 
 > tag size = 35, total tags in alignment file: 8355884, number of paired peaks: 34209, **predicted fragment length is 181** bps, alternative fragment length(s) may be 181 bps 
@@ -133,11 +140,16 @@ To produce **bigWig** coverage tracks, we need an estimate of the fragment lengt
 Next we use `bamCoverage` from **deepTools** to extend reads and make a **bigWig** coverage file using the RPGC normalization method. This normalizes the reads using 1x coverage, making comparison with other tracks better. We use a bin size of 30 bps and extend reads to the fragment length predicted using `macs2 predictd`.
 
 `bamCoverage -bs 30 -p max/2 --normalizeUsing RPGC --ignoreDuplicates --effectiveGenomeSize 1195445591 --extendReads 287 -b $DATAPATH/aligned_data/H3K27ac_Dome_ut1m_sorted.bam -o $DATAPATH/coverage_data/H3K27ac_Dome_ut1m.bigWig`
+
 `bamCoverage -bs 30 -p max/2 --normalizeUsing RPGC --ignoreDuplicates --effectiveGenomeSize 1195445591 --extendReads 297 -b $DATAPATH/aligned_data/H3K27ac_80Epi_ut1m_sorted.bam -o $DATAPATH/coverage_data/H3K27ac_80Epi_ut1m.bigWig`
+
 `bamCoverage -bs 30 -p max/2 --normalizeUsing RPGC --ignoreDuplicates --effectiveGenomeSize 1251132686 --extendReads 224 -b $DATAPATH/aligned_data/Ser5P_Dome_ut1m_sorted.bam -o $DATAPATH/coverage_data/Ser5P_Dome_ut1m.bigWig`
+
 `bamCoverage -bs 30 -p max/2 --normalizeUsing RPGC --ignoreDuplicates --effectiveGenomeSize 1195445591 --extendReads 191 -b $DATAPATH/aligned_data/Input_Dome_ut1m_sorted.bam -o $DATAPATH/coverage_data/Input_Dome_ut1m.bigWig`
+
 `bamCoverage -bs 30 -p max/2 --normalizeUsing RPGC --ignoreDuplicates --effectiveGenomeSize 1195445591 --extendReads 181 -b $DATAPATH/aligned_data/Input_80Epi_ut1m_sorted.bam -o $DATAPATH/coverage_data/Input_80EPi_ut1m.bigWig`
 
 ### Calling peaks
 Next we call peaks using `macs2 callpeak`. 
+
 `macs2 callpeak -g 1369631918 -q 0.05 --broad -n test --nomodel --extsize 200 --keep-dup all -t X_upto1mismatch_sorted.bam -c I_upto1mismatch_sorted.bam`
