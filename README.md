@@ -335,4 +335,10 @@ library(ggplot2)
 library(ggpubr)
 library(ggsignif)
 library(ggExtra)
+duplicates = "remove_duplicates/" # with_duplicates
+
+promoters = read.delim(paste("/Volumes/Samsung_T5/Bioinformatics/superenhancers_paper/FigY/",duplicates,"Promoters_normalized.txt",sep=""), sep = "\t", dec = ".", header=F, col.names=c("chr", "start", "end", "Ser5P", "Input", "H3K27ac", "fraction", "gene"))
+genebodies = read.delim(paste("/Volumes/Samsung_T5/Bioinformatics/superenhancers_paper/FigY/",duplicates,"Genebody_normalized.txt",sep=""), sep = "\t", dec = ".", header=F, col.names=c("chr", "start", "end", "Ser5P", "Input", "H3K27ac", "fraction", "gene"))
+
+joined_table <- merge(promoters, genebodies, by = "gene")
 ```
