@@ -18,10 +18,28 @@
 ```
 
 
-## To Do
+## Tools needed
 
-1. Removing duplicates from the BAM file using rmdup or picard.
-2. Redo coverage tracks with formatted layout and new BAM files.
+1. bowtie2 [build OK, alignment OK] [2.3.5.1 -> 2.4.2]
+2. FastQC [OK]
+3. samtools [filtering slightly different. can 1.9 be installed? yes but filtering slightly different again!] [1.9 -> 1.12]
+4. MACS2 [filterdup, predictd lsightly different but OK, same length predicted]
+5. deepTools [bamCoverage OK]
+6. bedtools
+7. pyGenomeTracks (requires Python)
+8. R
+	* ggplot2
+	* ggExtra
+
+You can either install all of these in a conda environment, or if you already have them installed, use those versions. We briefly outline the steps needed to put them all in a conda environment.
+
+```bash
+conda create -n ser5p-se
+conda activate ser5p-se
+conda install -c bioconda samtools bowtie2 fastqc macs2 deeptools bedtools pygenometracks
+conda install -c bioconda samtools=1.12 bowtie2=2.4.2 fastqc=0.11.9 macs2 deeptools bedtools pygenometracks
+conda install 
+```
 
 ## Downloading and preparing raw data
 1. Download raw data as **fastq.gz** files from **SRA**. 
@@ -127,7 +145,7 @@ samtools sort $DATAPATH/aligned_data/Ser5P_Dome_ut1m.bam > $DATAPATH/aligned_dat
 **Indexing**: 
 
 ```bash
-samtools index $DATAPATH/aligned_data/Ser5P_Dome_ut1m.bam
+samtools index $DATAPATH/aligned_data/Ser5P_Dome_ut1m_sorted.bam
 ```
 For **Input** *Dome* data, we merge the BAM files before sorting. 
 
@@ -275,6 +293,14 @@ mdkir $DATAPATH/coverage_tracks/SE_Dome $DATAPATH/coverage_tracks/SE_80Epi
 pyGenomeTracks --tracks $DATAPATH/coverage_tracks/coverage_tracks.ini --BED $DATAPATH/superenhancers/Superenhancers_Dome_trackregions.bed --outFileName $DATAPATH/coverage_tracks/SE_Dome/tracks.pdf
 pyGenomeTracks --tracks $DATAPATH/coverage_tracks/coverage_tracks.ini --BED $DATAPATH/superenhancers/Superenhancers_80Epi_trackregions.bed --outFileName $DATAPATH/coverage_tracks/SE_80Epi/tracks.pdf
 ```
+From these, we selected a few regions to design Oligopaint probes targetting them. 
+
+```bash
+awk -v OFS="\t" 'FNR==NR{a[$1]=$2;next} ($1 in a) {print $1,$2,$3,$4,$5,a[$1]}' $DATAPATH/genome_files/danRer10.chrom.sizes $DATAPATH/coverage_tracks/OP_coords_sorted.bed | awk -F'\t' -v OFS="\t" '{print $1,(int((int($2)+int($3))/2)-100000 > 0 ? int((int($2)+int($3))/2)-100000: 1),(int((int($2)+int($3))/2)+100000 < $6 ? int((int($2)+int($3))/2)+100000: $6),$4,$5}' > $DATAPATH/coverage_tracks/OP_trackregions.bed 
+mdkir $DATAPATH/coverage_tracks/OP_regions
+pyGenomeTracks --tracks $DATAPATH/coverage_tracks/coverage_tracks_OP.ini --BED $DATAPATH/coverage_tracks/OP_trackregions.bed --outFileName $DATAPATH/coverage_tracks/OP_regions/tracks.pdf
+```
+
 ### Making Fig. X
 
 Making genomic windows of 50 kb:
@@ -312,6 +338,10 @@ pyGenomeTracks --tracks FigX/coverage_tracks.ini --BED FigX/FigX_regions.bed --o
 ### Making Fig. Y
 
 ```bash
+awk -v OFS="\t" '{print $0,($2>$3? $2-$3: $3-$2)}' danRer10_genes.bed | sort -k4,4 -k7,7rn | sort -uk4,4 | awk -v OFS="\t" '{print $1,$2,$3,$4,$5,$6}' | sort -k 1,1 -k2,2n > danRer10_genes_unique_sorted.bed
+```
+
+```bash
 awk -v OFS="\t" '{print $1,($6=="+" ? int($2)-2000: int($3)-200), ($6=="+" ? int($2)+200: int($3)+2000),$4,$5,$6}' genome_files/danRer10_genes_sorted.bed > genome_files/danRer10_genes_promoters.bed
 awk -v OFS="\t" 'FNR==NR{a[$1]=$2;next} ($1 in a) {print $1,$2,$3,$4,$5,$6,a[$1]}' genome_files/danRer10.chrom.sizes genome_files/danRer10_genes_promoters.bed | awk -F'\t' -v OFS="\t" '{print $1,(int($2) > 0 ? int($2): 1),(int($3) < $7 ? int($3): $7),$4,$5,$6}' > genome_files/danRer10_promoters.bed
 awk -v OFS="\t" '{print $1,($6=="+" ? int($2)+200: int($2)), ($6=="+" ? int($3): int($3)-200),$4,$5,$6}' genome_files/danRer10_genes_sorted.bed > genome_files/danRer10_genes_genebody.bed
@@ -327,18 +357,4 @@ awk -v OFS="\t" '{print $1,$2,$3,$7*1251132686/(224*10681375),$8*1195445591/(191
 
 ```bash
 pyGenomeTracks --tracks FigY/coverage_tracks.ini --BED FigY/FigY_regions.bed --outFileName FigY/FigY.pdf --width 13 --height 4
-```
-
-```r
-library(gplots)
-library(ggplot2)
-library(ggpubr)
-library(ggsignif)
-library(ggExtra)
-duplicates = "remove_duplicates/" # with_duplicates
-
-promoters = read.delim(paste("/Volumes/Samsung_T5/Bioinformatics/superenhancers_paper/FigY/",duplicates,"Promoters_normalized.txt",sep=""), sep = "\t", dec = ".", header=F, col.names=c("chr", "start", "end", "Ser5P", "Input", "H3K27ac", "fraction", "gene"))
-genebodies = read.delim(paste("/Volumes/Samsung_T5/Bioinformatics/superenhancers_paper/FigY/",duplicates,"Genebody_normalized.txt",sep=""), sep = "\t", dec = ".", header=F, col.names=c("chr", "start", "end", "Ser5P", "Input", "H3K27ac", "fraction", "gene"))
-
-joined_table <- merge(promoters, genebodies, by = "gene")
 ```
