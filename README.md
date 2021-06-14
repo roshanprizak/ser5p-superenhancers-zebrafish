@@ -42,7 +42,7 @@ export DATAPATH=$(pwd)
 Create directories to store raw and processed data. 
 
 ```bash
-mkdir raw_data fastqc_output genome_files danRer10_index aligned_data fragment_length_predict coverage_data peakcalled_data superenhancers coverage_tracks
+mkdir raw_data fastqc_output danRer10_index aligned_data fragment_length_predict coverage_data superenhancers FigX FigY
 ```
 	
 ### Download reads
