@@ -343,11 +343,7 @@ pyGenomeTracks --tracks FigY/coverage_tracks.ini --BED FigY/FigY_regions.bed --o
 
 ## Oligopaint design
 
-### Obtaining genome region homology oligos
-
 We obtained genome region homology oligos for danRer10 from https://oligopaints.hms.harvard.edu/genome-files/danrer10. We used the `balance` oligo set because it resulted in the highest probe density.
-
-### Oligopaint design
 
 We used the following design to make oligopaint probes:
 
@@ -355,3 +351,10 @@ UniversalMainstreet-LocusSpecificStreet-UniversalFlourophoreMainstreet-Hybridizi
 
 Primers against UniversalMainstreet and UniversalBackstreet are used to amplify the whole Oligo library, primers against LocusSpecificStreet can be used to amplify a specific oligopaint locus from the oligopaint library, UniversalFlourophoreMainstreet binds to the flourophore containing primer that we use to image the sample, and HybridizingOligo contains the gene region homology oligos obtained above. 
 
+We used `OligoLego` https://github.com/gnir/OligoLego to design streets and pick sets of streets that can function well together. First we used `MakingStreets.m` from `OligoLego` to design a large list of possible streets.  
+
+The list of genomic regions for which we designed oligopaint probes is available in the BED file `OP.bed`. Using this and the hybridizing probe set, we run `bedtools intersect` to obtain `Main_isected.txt` which contains the coordinates and sequences of hybridizing probes that overlap each region in `OP.bed`. This file should contain 9 columns as in the file provided. 
+
+One can use `ApOPs.m` from `OligoLego` to design the oligopaint library. However, because we use a different design from what is offered in `OligoLego`, we instead use our own program `AppendGivenStreets.m` and supply it with a list of streets `GivenStreets.txt` (selected using the same criteria as `OligoLego`'s programs), and the universal streets in `Universal.txt` to construct the library from. This program results in a list of files that we can use to order the oligopaint library. 
+
+`MSDensity.txt` contains information about the oligopaint regions -- coordinates of each region, number of probes for each region, and the per-region density of probes. `PrimersToOrder.txt` contains the list of universal and locus-specific probes to be ordered. `Oligopaints.txt` contains the final oligopaint library with each oligopaint probe and its sequence. We use `sed 's/ \+/,/g' Oligopaints.txt > Oligopaints.csv` to prepare a CSV file to order from.
