@@ -343,7 +343,7 @@ pyGenomeTracks --tracks $DATAPATH/FigY/coverage_tracks.ini --BED $DATAPATH/FigY/
 
 ## Oligopaint design
 
-We obtained genome region homology oligos for danRer10 from https://oligopaints.hms.harvard.edu/genome-files/danrer10. We used the `balance` oligo set because it resulted in the highest probe density.
+We obtained genome region homology oligos for danRer10 from https://oligopaints.hms.harvard.edu/genome-files/danrer10. We used the `balance` oligo set because it resulted in the highest probe density. Sort these BED files and place these in the `$DATAPATH/oligopaints/hybridizing_probes` folder.
 
 We used the following design to make oligopaint probes:
 
