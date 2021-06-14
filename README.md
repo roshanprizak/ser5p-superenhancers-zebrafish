@@ -351,5 +351,7 @@ We obtained genome region homology oligos for danRer10 from https://oligopaints.
 
 We used the following design to make oligopaint probes:
 
+UniversalMainstreet-LocusSpecificStreet-UniversalFlourophoreMainstreet-HybridizingOligo-UniversalBackstreet
 
+Primers against UniversalMainstreet and UniversalBackstreet are used to amplify the whole Oligo library, primers against LocusSpecificStreet can be used to amplify a specific oligopaint locus from the oligopaint library, UniversalFlourophoreMainstreet binds to the flourophore containing primer that we use to image the sample, and HybridizingOligo contains the gene region homology oligos obtained above. 
 
