@@ -1,23 +1,5 @@
 # Guide
 
-## Directory structure
-```
-	├── LICENSE.txt
-	│
-	├── README.md
-	│
-	├── bin
-	│   ├── ROSE_bamToGFF.py : calculates density of .bam reads in .gff regions
-	│   ├── ROSE_callSuper.R : ranks regions by their densities, creates cutoff
-	│   ├── ROSE_geneMapper.py : assigns stitched enhancers to genes
-	│   └── ROSE_main.py : main program
-	└── lib
-	    └── ROSE_utils.py : utilities method
-
-	Total: 2 directories, 8 files
-```
-
-
 ## Tools needed
 
 1. bowtie2 [build OK, alignment OK] [2.3.5.1 -> 2.4.2]
