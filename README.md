@@ -340,3 +340,16 @@ awk -v OFS="\t" '{print $1,$2,$3,$7*1251132686/(224*10681375),$8*1195445591/(191
 ```bash
 pyGenomeTracks --tracks FigY/coverage_tracks.ini --BED FigY/FigY_regions.bed --outFileName FigY/FigY.pdf --width 13 --height 4
 ```
+
+## Oligopaint design
+
+### Obtaining genome region homology oligos
+
+We obtained genome region homology oligos for danRer10 from https://oligopaints.hms.harvard.edu/genome-files/danrer10. We used the `balance` oligo set because it resulted in the highest probe density.
+
+### Oligopaint design
+
+We used the following design to make oligopaint probes:
+
+
+
