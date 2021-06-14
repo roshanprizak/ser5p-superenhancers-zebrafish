@@ -295,11 +295,11 @@ Keeping all duplicates:
 
 ```bash
 bedtools multicov -bams $DATAPATH/aligned_data/Ser5P_Dome_ut1m_sorted.bam $DATAPATH/aligned_data/Input_Dome_ut1m_sorted.bam $DATAPATH/aligned_data/H3K27ac_Dome_ut1m_sorted.bam -bed $DATAPATH/genome_files/danRer10_windows_w50k_s25k_sorted.bed > $DATAPATH/FigX/Genomic_50k_windows.txt
-bedtools multicov -bams aligned_data/Ser5P_Dome_ut1m_sorted.bam aligned_data/Input_Dome_ut1m_sorted.bam aligned_data/H3K27ac_Dome_ut1m_sorted.bam -bed superenhancers/Superenhancers_Dome_sorted.bed > FigX/Superenhancers_Dome.txt
-bedtools multicov -bams aligned_data/Ser5P_Dome_ut1m_sorted.bam aligned_data/Input_Dome_ut1m_sorted.bam aligned_data/H3K27ac_Dome_ut1m_sorted.bam -bed coverage_tracks/OP_coords_sorted.bed > FigX/OP.txt
-awk -v OFS="\t" '{print $1,$2,$3,$4*1251132686/(224*35513591),$5*1195445591/(191*23824857),$6*1195445591/(287*6256116)}' FigX/Genomic_50k_windows.txt | awk -v OFS="\t" '{print $1,$2,$3,$4,$5,$6,($5>0 ? $4/$5: 0), 1}' > FigX/Genomic_50k_windows_normalized.txt
-awk -v OFS="\t" '{print $1,$2,$3,$6*1251132686/(224*35513591),$7*1195445591/(191*23824857),$8*1195445591/(287*6256116)}' FigX/Superenhancers_Dome.txt | awk -v OFS="\t" '{print $1,$2,$3,$4,$5,$6,($5>0 ? $4/$5: 0), 2}' > FigX/Superenhancers_Dome_normalized.txt
-awk -v OFS="\t" '{print $1,$2,$3,$5*1251132686/(224*35513591),$6*1195445591/(191*23824857),$7*1195445591/(287*6256116),$4}' FigX/OP.txt | awk -v OFS="\t" '{print $1,$2,$3,$4,$5,$6,($5>0 ? $4/$5: 0), $7}' > FigX/OP_normalized.txt 
+bedtools multicov -bams $DATAPATH/aligned_data/Ser5P_Dome_ut1m_sorted.bam $DATAPATH/aligned_data/Input_Dome_ut1m_sorted.bam $DATAPATH/aligned_data/H3K27ac_Dome_ut1m_sorted.bam -bed $DATAPATH/superenhancers/Superenhancers_Dome_sorted.bed > FigX/Superenhancers_Dome.txt
+bedtools multicov -bams $DATAPATH/aligned_data/Ser5P_Dome_ut1m_sorted.bam $DATAPATH/aligned_data/Input_Dome_ut1m_sorted.bam $DATAPATH/aligned_data/H3K27ac_Dome_ut1m_sorted.bam -bed $DATAPATH/coverage_tracks/OP_coords_sorted.bed > FigX/OP.txt
+awk -v OFS="\t" '{print $1,$2,$3,$4*1251132686/(224*35513591),$5*1195445591/(191*23824857),$6*1195445591/(287*6256116)}' $DATAPATH/FigX/Genomic_50k_windows.txt | awk -v OFS="\t" '{print $1,$2,$3,$4,$5,$6,($5>0 ? $4/$5: 0), 1}' > $DATAPATH/FigX/Genomic_50k_windows_normalized.txt
+awk -v OFS="\t" '{print $1,$2,$3,$6*1251132686/(224*35513591),$7*1195445591/(191*23824857),$8*1195445591/(287*6256116)}' $DATAPATH/FigX/Superenhancers_Dome.txt | awk -v OFS="\t" '{print $1,$2,$3,$4,$5,$6,($5>0 ? $4/$5: 0), 2}' > $DATAPATH/FigX/Superenhancers_Dome_normalized.txt
+awk -v OFS="\t" '{print $1,$2,$3,$5*1251132686/(224*35513591),$6*1195445591/(191*23824857),$7*1195445591/(287*6256116),$4}' $DATAPATH/FigX/OP.txt | awk -v OFS="\t" '{print $1,$2,$3,$4,$5,$6,($5>0 ? $4/$5: 0), $7}' > $DATAPATH/FigX/OP_normalized.txt 
 ```
 
 After removing duplicates: 
@@ -310,11 +310,11 @@ bedtools multicov -bams aligned_data/Ser5P_Dome_ut1m_dr.bam aligned_data/Input_D
 bedtools multicov -bams aligned_data/Ser5P_Dome_ut1m_dr.bam aligned_data/Input_Dome_ut1m_sorted.bam aligned_data/H3K27ac_Dome_ut1m_sorted.bam -bed coverage_tracks/OP_coords_sorted.bed > FigX/OP_dr.txt
 awk -v OFS="\t" '{print $1,$2,$3,$6*1251132686/(224*10681375),$7*1195445591/(191*23824857),$8*1195445591/(287*6256116)}' FigX/Superenhancers_Dome_dr.txt | awk -v OFS="\t" '{print $1,$2,$3,$4,$5,$6,($5>0 ? $4/$5: 0), 2}' > FigX/Superenhancers_Dome_dr_normalized.txt
 awk -v OFS="\t" '{print $1,$2,$3,$4*1251132686/(224*10681375),$5*1195445591/(191*23824857),$6*1195445591/(287*6256116)}' FigX/Genomic_50k_windows_dr.txt | awk -v OFS="\t" '{print $1,$2,$3,$4,$5,$6,($5>0 ? $4/$5: 0), 1}' > FigX/Genomic_50k_windows_dr_normalized.txt 
-awk -v OFS="\t" '{print $1,$2,$3,$5*1251132686/(224*10681375),$6*1195445591/(191*23824857),$7*1195445591/(287*6256116),$4}' FigX/OP_dr.txt | awk -v OFS="\t" '{print $1,$2,$3,$4,$5,$6,($5>0 ? $4/$5: 0), $7}' > FigX/OP_dr_normalized.txt 
+awk -v OFS="\t" '{print $1,$2,$3,$5*1251132686/(224*10681375),$6*1195445591/(191*23824857),$7*1195445591/(287*6256116),$4}' $DATAPATH/FigX/OP_dr.txt | awk -v OFS="\t" '{print $1,$2,$3,$4,$5,$6,($5>0 ? $4/$5: 0), $7}' > $DATAPATH/FigX/OP_dr_normalized.txt 
 ```
 
 ```bash
-pyGenomeTracks --tracks FigX/coverage_tracks.ini --BED FigX/FigX_regions.bed --outFileName FigX/FigX.pdf
+pyGenomeTracks --tracks $DATAPATH/FigX/coverage_tracks.ini --BED $DATAPATH/FigX/FigX_regions.bed --outFileName $DATAPATH/FigX/FigX.pdf
 ```
 
 ### Making Fig. Y
@@ -324,21 +324,21 @@ awk -v OFS="\t" '{print $0,($2>$3? $2-$3: $3-$2)}' danRer10_genes.bed | sort -k4
 ```
 
 ```bash
-awk -v OFS="\t" '{print $1,($6=="+" ? int($2)-2000: int($3)-200), ($6=="+" ? int($2)+200: int($3)+2000),$4,$5,$6}' genome_files/danRer10_genes_sorted.bed > genome_files/danRer10_genes_promoters.bed
-awk -v OFS="\t" 'FNR==NR{a[$1]=$2;next} ($1 in a) {print $1,$2,$3,$4,$5,$6,a[$1]}' genome_files/danRer10.chrom.sizes genome_files/danRer10_genes_promoters.bed | awk -F'\t' -v OFS="\t" '{print $1,(int($2) > 0 ? int($2): 1),(int($3) < $7 ? int($3): $7),$4,$5,$6}' > genome_files/danRer10_promoters.bed
-awk -v OFS="\t" '{print $1,($6=="+" ? int($2)+200: int($2)), ($6=="+" ? int($3): int($3)-200),$4,$5,$6}' genome_files/danRer10_genes_sorted.bed > genome_files/danRer10_genes_genebody.bed
-awk -v OFS="\t" 'FNR==NR{a[$1]=$2;next} ($1 in a) {print $1,$2,$3,$4,$5,$6,a[$1]}' genome_files/danRer10.chrom.sizes genome_files/danRer10_genes_genebody.bed | awk -F'\t' -v OFS="\t" '{print $1,(int($2) > 0 ? int($2): 1),(int($3) < $7 ? int($3): $7),$4,$5,$6}' | awk -F'\t' -v OFS="\t" '{if(int($2)<int($3)) print $0}'> genome_files/danRer10_genebody.bed
+awk -v OFS="\t" '{print $1,($6=="+" ? int($2)-2000: int($3)-200), ($6=="+" ? int($2)+200: int($3)+2000),$4,$5,$6}' $DATAPATH/genome_files/danRer10_genes_sorted.bed > $DATAPATH/genome_files/danRer10_genes_promoters.bed
+awk -v OFS="\t" 'FNR==NR{a[$1]=$2;next} ($1 in a) {print $1,$2,$3,$4,$5,$6,a[$1]}' $DATAPATH/genome_files/danRer10.chrom.sizes genome_files/danRer10_genes_promoters.bed | awk -F'\t' -v OFS="\t" '{print $1,(int($2) > 0 ? int($2): 1),(int($3) < $7 ? int($3): $7),$4,$5,$6}' > $DATAPATH/genome_files/danRer10_promoters.bed
+awk -v OFS="\t" '{print $1,($6=="+" ? int($2)+200: int($2)), ($6=="+" ? int($3): int($3)-200),$4,$5,$6}' $DATAPATH/genome_files/danRer10_genes_sorted.bed > $DATAPATH/genome_files/danRer10_genes_genebody.bed
+awk -v OFS="\t" 'FNR==NR{a[$1]=$2;next} ($1 in a) {print $1,$2,$3,$4,$5,$6,a[$1]}' $DATAPATH/genome_files/danRer10.chrom.sizes $DATAPATH/genome_files/danRer10_genes_genebody.bed | awk -F'\t' -v OFS="\t" '{print $1,(int($2) > 0 ? int($2): 1),(int($3) < $7 ? int($3): $7),$4,$5,$6}' | awk -F'\t' -v OFS="\t" '{if(int($2)<int($3)) print $0}'> $DATAPATH/genome_files/danRer10_genebody.bed
 ```
 
 ```bash
-bedtools multicov -bams aligned_data/Ser5P_Dome_ut1m_sorted_dr.bam aligned_data/Input_Dome_ut1m_sorted.bam aligned_data/H3K27ac_Dome_ut1m_sorted.bam -bed genome_files/danRer10_promoters.bed > FigY/Promoters.txt
-bedtools multicov -bams aligned_data/Ser5P_Dome_ut1m_sorted_dr.bam aligned_data/Input_Dome_ut1m_sorted.bam aligned_data/H3K27ac_Dome_ut1m_sorted.bam -bed genome_files/danRer10_genebody.bed > FigY/Genebody.txt
-awk -v OFS="\t" '{print $1,$2,$3,$7*1251132686/(224*10681375),$8*1195445591/(191*23824857),$9*1195445591/(287*6256116),$4}' FigY/Promoters.txt | awk -v OFS="\t" '{print $1,$2,$3,$4,$5,$6,($5>0 ? $4/$5: 0), $7}' > FigY/Promoters_normalized.txt 
-awk -v OFS="\t" '{print $1,$2,$3,$7*1251132686/(224*10681375),$8*1195445591/(191*23824857),$9*1195445591/(287*6256116),$4}' FigY/Genebody.txt | awk -v OFS="\t" '{print $1,$2,$3,$4,$5,$6,($5>0 ? $4/$5: 0), $7}' > FigY/Genebody_normalized.txt 
+bedtools multicov -bams $DATAPATH/aligned_data/Ser5P_Dome_ut1m_sorted_dr.bam $DATAPATH/aligned_data/Input_Dome_ut1m_sorted.bam $DATAPATH/aligned_data/H3K27ac_Dome_ut1m_sorted.bam -bed $DATAPATH/genome_files/danRer10_promoters.bed > $DATAPATH/FigY/Promoters.txt
+bedtools multicov -bams $DATAPATH/aligned_data/Ser5P_Dome_ut1m_sorted_dr.bam $DATAPATH/aligned_data/Input_Dome_ut1m_sorted.bam $DATAPATH/aligned_data/H3K27ac_Dome_ut1m_sorted.bam -bed $DATAPATH/genome_files/danRer10_genebody.bed > $DATAPATH/FigY/Genebody.txt
+awk -v OFS="\t" '{print $1,$2,$3,$7*1251132686/(224*10681375),$8*1195445591/(191*23824857),$9*1195445591/(287*6256116),$4}' $DATAPATH/FigY/Promoters.txt | awk -v OFS="\t" '{print $1,$2,$3,$4,$5,$6,($5>0 ? $4/$5: 0), $7}' > $DATAPATH/FigY/Promoters_normalized.txt 
+awk -v OFS="\t" '{print $1,$2,$3,$7*1251132686/(224*10681375),$8*1195445591/(191*23824857),$9*1195445591/(287*6256116),$4}' $DATAPATH/FigY/Genebody.txt | awk -v OFS="\t" '{print $1,$2,$3,$4,$5,$6,($5>0 ? $4/$5: 0), $7}' > $DATAPATH/FigY/Genebody_normalized.txt 
 ```
 
 ```bash
-pyGenomeTracks --tracks FigY/coverage_tracks.ini --BED FigY/FigY_regions.bed --outFileName FigY/FigY.pdf --width 13 --height 4
+pyGenomeTracks --tracks $DATAPATH/FigY/coverage_tracks.ini --BED $DATAPATH/FigY/FigY_regions.bed --outFileName $DATAPATH/FigY/FigY.pdf --width 13 --height 4
 ```
 
 ## Oligopaint design
