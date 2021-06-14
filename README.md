@@ -42,7 +42,7 @@ export DATAPATH=$(pwd)
 Create directories to store raw and processed data. 
 
 ```bash
-mkdir raw_data fastqc_output danRer10_index aligned_data fragment_length_predict coverage_data superenhancers FigX FigY
+mkdir raw_data fastqc_output danRer10_index aligned_data fragment_length_predict coverage_data superenhancers
 ```
 	
 ### Download reads
