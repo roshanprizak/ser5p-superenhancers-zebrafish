@@ -2,16 +2,13 @@
 
 ## Tools needed
 
-1. bowtie2 [build OK, alignment OK] [2.3.5.1 -> 2.4.2]
-2. FastQC [OK]
-3. samtools [filtering slightly different. can 1.9 be installed? yes but filtering slightly different again!] [1.9 -> 1.12]
-4. MACS2 [filterdup, predictd lsightly different but OK, same length predicted]
-5. deepTools [bamCoverage OK]
+1. bowtie2
+2. FastQC
+3. samtools
+4. MACS2
+5. deepTools
 6. bedtools
 7. pyGenomeTracks (requires Python)
-8. R
-	* ggplot2
-	* ggExtra
 
 You can either install all of these in a conda environment, or if you already have them installed, use those versions. We briefly outline the steps needed to put them all in a conda environment.
 
@@ -19,7 +16,6 @@ You can either install all of these in a conda environment, or if you already ha
 conda create -n ser5p-se
 conda activate ser5p-se
 conda install -c bioconda samtools bowtie2 fastqc macs2 deeptools bedtools pygenometracks
-conda install -c bioconda samtools=1.12 bowtie2=2.4.2 fastqc=0.11.9 macs2 deeptools bedtools pygenometracks
 conda install 
 ```
 
